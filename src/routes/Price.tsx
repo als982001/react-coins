@@ -75,7 +75,7 @@ const Graph = styled.div<{ src: string }>`
 `;
 
 const Info = styled.span`
-  font-size: 18px;
+  font-size: 14px;
   color: #00abb3;
 `;
 

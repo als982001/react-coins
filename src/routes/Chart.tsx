@@ -29,57 +29,141 @@ function Chart({ coinId }: ChartProps) {
     }
   );
 
+  const tempChartData = data ?? [];
+  const chartData = tempChartData?.map((dt) => {
+    return {
+      x: dt.time_close,
+      y: [dt.open, dt.high, dt.low, dt.close],
+    };
+  });
+
   return (
     <div>
       {isLoading ? (
         "Loading chart..."
       ) : (
-        <ApexChart
-          type="line"
-          series={[
-            {
-              name: "Price",
-              data: data?.map((price) => Number(price.close)) as number[],
-            },
-          ]}
-          options={{
-            theme: {
-              mode: isDark ? "dark" : "light",
-            },
-            chart: {
-              height: 500,
-              width: 500,
-              toolbar: {
-                show: false,
+        <>
+          <ApexChart
+            type="line"
+            series={[
+              {
+                name: "Price",
+                data: data?.map((price) => Number(price.close)) as number[],
               },
-              background: "transparent",
-            },
-            stroke: {
-              curve: "smooth",
-              width: 5,
-            },
-            yaxis: { show: false },
-            xaxis: {
-              axisBorder: { show: false },
-              axisTicks: { show: false },
-              labels: { show: false },
-              categories: data?.map((price) => price.time_close),
-            },
-            fill: {
-              type: "gradient",
-              gradient: { gradientToColors: ["#0be881"], stops: [0, 100] }, // 그래프 처음 색깔
-            },
-            colors: ["#0fbcf9"], // 그래프 끝 색깔
-            tooltip: {
-              y: {
-                formatter: (value) => `$${value.toFixed(2)}`,
+            ]}
+            options={{
+              theme: {
+                mode: isDark ? "dark" : "light",
               },
-            },
-          }}
-        />
+              chart: {
+                height: 500,
+                width: 500,
+                toolbar: {
+                  show: false,
+                },
+                background: "transparent",
+              },
+              stroke: {
+                curve: "smooth",
+                width: 5,
+              },
+              yaxis: { show: false },
+              xaxis: {
+                axisBorder: { show: false },
+                axisTicks: { show: false },
+                labels: { show: false },
+                categories: data?.map((price) => price.time_close),
+              },
+              fill: {
+                type: "gradient",
+                gradient: { gradientToColors: ["#0be881"], stops: [0, 100] }, // 그래프 처음 색깔
+              },
+              colors: ["#0fbcf9"], // 그래프 끝 색깔
+              tooltip: {
+                y: {
+                  formatter: (value) => `$${value.toFixed(2)}`,
+                },
+              },
+            }}
+          />
+          <ApexChart
+            type="candlestick"
+            series={[
+              {
+                data: chartData,
+              },
+            ]}
+            options={{
+              theme: {
+                mode: isDark ? "dark" : "light",
+              },
+              chart: {
+                height: 500,
+                width: 500,
+                toolbar: {
+                  show: false,
+                },
+                background: "transparent",
+              },
+              yaxis: { show: false },
+              xaxis: {
+                axisBorder: { show: false },
+                axisTicks: { show: false },
+                labels: { show: false },
+                categories: data?.map((price) => price.time_close),
+              },
+            }}
+          />
+        </>
       )}
     </div>
   );
 }
 
 export default Chart;
+
+/*
+<ApexChart
+            type="line"
+            series={[
+              {
+                name: "Price",
+                data: data?.map((price) => Number(price.close)) as number[],
+              },
+            ]}
+            options={{
+              theme: {
+                mode: isDark ? "dark" : "light",
+              },
+              chart: {
+                height: 500,
+                width: 500,
+                toolbar: {
+                  show: false,
+                },
+                background: "transparent",
+              },
+              stroke: {
+                curve: "smooth",
+                width: 5,
+              },
+              yaxis: { show: false },
+              xaxis: {
+                axisBorder: { show: false },
+                axisTicks: { show: false },
+                labels: { show: false },
+                categories: data?.map((price) => price.time_close),
+              },
+              fill: {
+                type: "gradient",
+                gradient: { gradientToColors: ["#0be881"], stops: [0, 100] }, // 그래프 처음 색깔
+              },
+              colors: ["#0fbcf9"], // 그래프 끝 색깔
+              tooltip: {
+                y: {
+                  formatter: (value) => `$${value.toFixed(2)}`,
+                },
+              },
+            }}
+          />
+          */

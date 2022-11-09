@@ -7,11 +7,14 @@ import { isDarkAtom } from "./atom";
 
 const Wrapper = styled.div``;
 
-const ThemeBtn = styled.div<{ nextTheme: string }>`
+const ThemeBtn = styled.div<{ currentTheme: string }>`
   height: 80px;
   width: 80px;
-  border-radius: 40px;
-  background-color: ${(props) => props.nextTheme};
+  border-radius: 20px;
+  border: 1px ${(props) => (props.currentTheme === "dark" ? "white" : "black")}
+    solid;
+  background-color: ${(props) =>
+    props.currentTheme === "dark" ? "#171B20" : "#7A7A7A"};
   position: fixed;
   top: 85vh;
   left: 5vw;
@@ -21,7 +24,7 @@ const ThemeBtn = styled.div<{ nextTheme: string }>`
 
   span {
     font-size: 26px;
-    color: green;
+    color: ${(props) => (props.currentTheme === "dark" ? "white" : "white")};
   }
 `;
 
@@ -43,7 +46,7 @@ function Router() {
           </Route>
         </Switch>
       </BrowserRouter>
-      <ThemeBtn nextTheme={isDark ? "pink" : "black"} onClick={onBtnClick}>
+      <ThemeBtn currentTheme={isDark ? "dark" : "light"} onClick={onBtnClick}>
         <span>{isDark ? "Light" : "Dark"}</span>
       </ThemeBtn>
     </Wrapper>

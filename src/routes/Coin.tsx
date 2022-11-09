@@ -82,14 +82,13 @@ const Tab = styled.span<{ isActive: boolean }>`
   }
 `;
 
-const BackBtn = styled.button`
-  width: 100px;
-  height: 100px;
-  background-color: pink;
-
-  position: fixed;
-  top: 8vh;
-  left: 25vw;
+const Btn = styled.button`
+  height: 50px;
+  width: 440px;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  margin-bottom: 10px;
 `;
 
 interface RouterParams {
@@ -201,10 +200,6 @@ function Coin() {
         </title>
       </Helmet>
       <Header>
-        <BackBtn>
-          <Link to="/" />
-        </BackBtn>
-
         <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </Title>
@@ -254,6 +249,9 @@ function Coin() {
               <Chart coinId={coinId} />
             </Route>
           </Switch>
+          <Btn>
+            <Link to="/">Go To Home</Link>
+          </Btn>
         </>
       )}
     </Container>
