@@ -1,8 +1,21 @@
 import { useQuery } from "react-query";
+import styled from "styled-components";
 import { fetchCoinHistory } from "../api";
 import ApexChart from "react-apexcharts";
 import { useRecoilValue } from "recoil";
 import { isDarkAtom } from "../atom";
+
+const Wrapper = styled.section`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Loader = styled.h2`
+  font-size: 30px;
+  font-weight: bold;
+  margin: 0 auto;
+  margin-bottom: 20px;
+`;
 
 interface IHistorical {
   time_open: string;
@@ -38,9 +51,9 @@ function Chart({ coinId }: ChartProps) {
   });
 
   return (
-    <div>
+    <Wrapper>
       {isLoading ? (
-        "Loading chart..."
+        <Loader>Loading chart...</Loader>
       ) : (
         <>
           <ApexChart
@@ -116,7 +129,7 @@ function Chart({ coinId }: ChartProps) {
           />
         </>
       )}
-    </div>
+    </Wrapper>
   );
 }
 
