@@ -3,8 +3,6 @@ import { useLocation, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoinTickers } from "../api";
 
-const Wrapper = styled.div``;
-
 interface RouterParams {
   coinId: string;
 }
@@ -43,40 +41,52 @@ interface PriceData {
   };
 }
 
-const up = "https://cdn-icons-png.flaticon.com/512/5198/5198491.png";
-const down = "https://cdn-icons-png.flaticon.com/512/5726/5726389.png";
-
-const Changes = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+const Rows = styled.section`
+  width: 100%;
 `;
 
-const Change = styled.div`
-  width: 200px;
-  height: 200px;
-  background-color: #eaeaea;
-  margin: 0 auto;
-  margin-bottom: 30px;
+const Row = styled.section`
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  font-size: 17px;
+  font-weight: bold;
+  margin: 20px 0;
+  padding: 10px 0;
+  border-radius: 15px;
+  background-color: ${(props) => props.theme.cardBgColor};
+  box-shadow: 1px 1px 3px 3px ${(props) => props.theme.btnShadowColor},
+    -1px 1px 3px 3px ${(props) => props.theme.btnShadowColor};
+
+  &:hover {
+    box-shadow: 1px 1px 1px 1px ${(props) => props.theme.btnShadowColor},
+      -1px 1px 1px 1px ${(props) => props.theme.btnShadowColor};
+  }
+`;
+
+const SohwTime = styled.p``;
+
+const Changes = styled.div``;
+
+const ChangePercent = styled.span``;
+
+const ChangeImg = styled.span<{ changeVal: number }>`
+  font-size: 25px;
+  font-weight: bold;
+  margin-left: 10px;
+  color: ${(props) => (props.changeVal > 0 ? "red" : "blue")};
+`;
+
+const Wrapper = styled.section`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border-radius: 30px;
 `;
 
-const Graph = styled.div<{ src: string }>`
-  background-image: url(${(props) => props.src});
-  background-size: cover;
-  background-color: #b2b2b2;
-  width: 180px;
-  height: 150px;
-  margin-bottom: 10px;
-  border-radius: 30px;
-`;
-
-const Info = styled.span`
-  font-size: 14px;
-  color: #00abb3;
+const Loader = styled.h2`
+  font-size: 30px;
+  font-weight: bold;
+  margin: 0 auto;
+  margin-bottom: 20px;
 `;
 
 function Price() {
@@ -86,78 +96,124 @@ function Price() {
   );
 
   return (
-    <>
+    <Wrapper>
       {isLoading ? (
-        "Loading Price..."
+        <Loader>Loading Price...</Loader>
       ) : (
-        <Changes>
-          <Change>
-            <Graph
-              src={
-                (data?.quotes.USD.percent_change_15m as number) > 0 ? up : down
-              }
-            />
-            <Info>15분 전에 비해 {data?.quotes.USD.percent_change_15m}%</Info>
-          </Change>
-          <Change>
-            <Graph
-              src={
-                (data?.quotes.USD.percent_change_30m as number) > 0 ? up : down
-              }
-            />
-            <Info>30분 전에 비해 {data?.quotes.USD.percent_change_30m}%</Info>
-          </Change>
-          <Change>
-            <Graph
-              src={
-                (data?.quotes.USD.percent_change_1h as number) > 0 ? up : down
-              }
-            />
-            <Info>1시간 전에 비해 {data?.quotes.USD.percent_change_1h}%</Info>
-          </Change>
-          <Change>
-            <Graph
-              src={
-                (data?.quotes.USD.percent_change_6h as number) > 0 ? up : down
-              }
-            />
-            <Info>6시간 전에 비해 {data?.quotes.USD.percent_change_6h}%</Info>
-          </Change>
-          <Change>
-            <Graph
-              src={
-                (data?.quotes.USD.percent_change_12h as number) > 0 ? up : down
-              }
-            />
-            <Info>12시간 전에 비해 {data?.quotes.USD.percent_change_12h}%</Info>
-          </Change>
-          <Change>
-            <Graph
-              src={
-                (data?.quotes.USD.percent_change_24h as number) > 0 ? up : down
-              }
-            />
-            <Info>24시간 전에 비해 {data?.quotes.USD.percent_change_24h}%</Info>
-          </Change>
-          <Change>
-            <Graph
-              src={
-                (data?.quotes.USD.percent_change_30d as number) > 0 ? up : down
-              }
-            />
-            <Info>30일 전에 비해 {data?.quotes.USD.percent_change_30d}%</Info>
-          </Change>
-          <Change>
-            <Graph
-              src={
-                (data?.quotes.USD.percent_change_1y as number) > 0 ? up : down
-              }
-            />
-            <Info>1년 전에 비해 {data?.quotes.USD.percent_change_1y}%</Info>
-          </Change>
-        </Changes>
+        <>
+          <Rows>
+            <Row style={{ marginTop: "0px" }}>
+              <SohwTime>15분 전에 비해...</SohwTime>
+              <Changes>
+                <ChangePercent>{`${data?.quotes.USD.percent_change_15m}%`}</ChangePercent>
+                <ChangeImg
+                  changeVal={data?.quotes.USD.percent_change_15m as number}
+                >{`${
+                  (data?.quotes.USD.percent_change_15m as number) > 0
+                    ? "⤴️"
+                    : "⤵️"
+                }`}</ChangeImg>
+              </Changes>
+            </Row>
+            <Row>
+              <SohwTime>30분 전에 비해...</SohwTime>
+              <Changes>
+                <ChangePercent>{`${data?.quotes.USD.percent_change_30m}%`}</ChangePercent>
+                <ChangeImg
+                  changeVal={data?.quotes.USD.percent_change_30m as number}
+                >{`${
+                  (data?.quotes.USD.percent_change_30m as number) > 0
+                    ? "⤴️"
+                    : "⤵️"
+                }`}</ChangeImg>
+              </Changes>
+            </Row>
+            <Row>
+              <SohwTime>1시간 전에 비해...</SohwTime>
+              <Changes>
+                <ChangePercent>{`${data?.quotes.USD.percent_change_1h}%`}</ChangePercent>
+                <ChangeImg
+                  changeVal={data?.quotes.USD.percent_change_1h as number}
+                >{`${
+                  (data?.quotes.USD.percent_change_1h as number) > 0
+                    ? "⤴️"
+                    : "⤵️"
+                }`}</ChangeImg>
+              </Changes>
+            </Row>
+            <Row>
+              {" "}
+              <SohwTime>6시간 전에 비해...</SohwTime>
+              <Changes>
+                <ChangePercent>{`${data?.quotes.USD.percent_change_6h}%`}</ChangePercent>
+                <ChangeImg
+                  changeVal={data?.quotes.USD.percent_change_6h as number}
+                >{`${
+                  (data?.quotes.USD.percent_change_6h as number) > 0
+                    ? "⤴️"
+                    : "⤵️"
+                }`}</ChangeImg>
+              </Changes>
+            </Row>
+            <Row>
+              {" "}
+              <SohwTime>12시간 전에 비해...</SohwTime>
+              <Changes>
+                <ChangePercent>{`${data?.quotes.USD.percent_change_12h}%`}</ChangePercent>
+                <ChangeImg
+                  changeVal={data?.quotes.USD.percent_change_12h as number}
+                >{`${
+                  (data?.quotes.USD.percent_change_12h as number) > 0
+                    ? "⤴️"
+                    : "⤵️"
+                }`}</ChangeImg>
+              </Changes>
+            </Row>
+            <Row>
+              <SohwTime>24시간 전에 비해...</SohwTime>
+              <Changes>
+                <ChangePercent>{`${data?.quotes.USD.percent_change_24h}%`}</ChangePercent>
+                <ChangeImg
+                  changeVal={data?.quotes.USD.percent_change_24h as number}
+                >{`${
+                  (data?.quotes.USD.percent_change_24h as number) > 0
+                    ? "⤴️"
+                    : "⤵️"
+                }`}</ChangeImg>
+              </Changes>
+            </Row>
+            <Row>
+              {" "}
+              <SohwTime>30일 전에 비해...</SohwTime>
+              <Changes>
+                <ChangePercent>{`${data?.quotes.USD.percent_change_30d}%`}</ChangePercent>
+                <ChangeImg
+                  changeVal={data?.quotes.USD.percent_change_30d as number}
+                >{`${
+                  (data?.quotes.USD.percent_change_30d as number) > 0
+                    ? "⤴️"
+                    : "⤵️"
+                }`}</ChangeImg>
+              </Changes>
+            </Row>
+            <Row>
+              {" "}
+              <SohwTime>1년 전에 비해...</SohwTime>
+              <Changes>
+                <ChangePercent>{`${data?.quotes.USD.percent_change_1y}%`}</ChangePercent>
+                <ChangeImg
+                  changeVal={data?.quotes.USD.percent_change_1y as number}
+                >{`${
+                  (data?.quotes.USD.percent_change_1y as number) > 0
+                    ? "⤴️"
+                    : "⤵️"
+                }`}</ChangeImg>
+              </Changes>
+            </Row>
+          </Rows>
+        </>
       )}
-    </>
+    </Wrapper>
   );
 }
 

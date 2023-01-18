@@ -16,12 +16,13 @@ import { fetchCoinInfo, fetchCoinTickers } from "../api";
 import { Helmet } from "react-helmet";
 
 const Title = styled.h1`
-  font-size: 40px;
+  font-size: 60px;
+  font-weight: bold;
   color: ${(props) => props.theme.accentColor};
 `;
 
 const Container = styled.div`
-  padding: 0px 20px;
+  padding: 20px 20px;
   max-width: 480px;
   margin: 0 auto;
 `;
@@ -42,8 +43,11 @@ const Overview = styled.div`
   display: flex;
   justify-content: space-between;
   background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(props) => props.theme.cardBgColor};
   padding: 10px 20px;
   border-radius: 10px;
+  box-shadow: 1px 1px 3px 3px ${(props) => props.theme.btnShadowColor},
+    -1px 1px 3px 3px ${(props) => props.theme.btnShadowColor};
 `;
 
 const OverviewItem = styled.div`
@@ -51,14 +55,18 @@ const OverviewItem = styled.div`
   flex-direction: column;
   align-items: center;
   span:first-child {
-    font-size: 10px;
-    font-weight: 400;
+    font-size: 15px;
+    font-weight: bold;
     text-transform: uppercase;
     margin-bottom: 5px;
+  }
+  span:last-child {
+    font-size: 15px;
   }
 `;
 const Description = styled.p`
   margin: 20px 0px;
+  font-size: 20px;
 `;
 
 const Tabs = styled.div`
@@ -71,8 +79,12 @@ const Tabs = styled.div`
 const Tab = styled.span<{ isActive: boolean }>`
   text-align: center;
   text-transform: uppercase;
-  font-size: 12px;
-  background-color: rgba(0, 0, 0, 0.5);
+  font-size: 15px;
+  font-weight: bold;
+  background-color: ${(props) => props.theme.btnColor};
+  border: 1px solid #711a75;
+  box-shadow: 1px 1px 3px 3px ${(props) => props.theme.btnShadowColor},
+    -1px 1px 3px 3px ${(props) => props.theme.btnShadowColor};
   padding: 7px 0px;
   border-radius: 10px;
   color: ${(props) =>
@@ -80,15 +92,38 @@ const Tab = styled.span<{ isActive: boolean }>`
   a {
     display: block;
   }
+
+  &:hover {
+    box-shadow: 1px 1px 1px 1px ${(props) => props.theme.btnShadowColor},
+      -1px 1px 1px 1px ${(props) => props.theme.btnShadowColor};
+  }
+  &:active {
+    box-shadow: none;
+  }
 `;
 
-const Btn = styled.button`
+const Btn = styled.div`
   height: 50px;
   width: 440px;
   border-radius: 10px;
   background-color: rgba(0, 0, 0, 0.5);
-  color: white;
+  color: ${(props) => props.theme.textColor};
   margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  background-color: ${(props) => props.theme.btnColor};
+  border: 1px solid #711a75;
+  box-shadow: 1px 1px 3px 3px ${(props) => props.theme.btnShadowColor},
+    -1px 1px 3px 3px ${(props) => props.theme.btnShadowColor};
+  &:hover {
+    box-shadow: 1px 1px 1px 1px ${(props) => props.theme.btnShadowColor},
+      -1px 1px 1px 1px ${(props) => props.theme.btnShadowColor};
+  }
+  &:active {
+    box-shadow: none;
+  }
 `;
 
 interface RouterParams {
@@ -157,8 +192,10 @@ interface PriceData {
 function Coin() {
   const { coinId } = useParams<RouterParams>();
   const { state } = useLocation<RouteState>();
+
   const priceMatch = useRouteMatch("/:coinId/price");
   const chartMatch = useRouteMatch("/:coinId/chart");
+
   const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(
     ["info", coinId],
     () => fetchCoinInfo(coinId)
@@ -249,9 +286,9 @@ function Coin() {
               <Chart coinId={coinId} />
             </Route>
           </Switch>
-          <Btn>
-            <Link to="/">Go To Home</Link>
-          </Btn>
+          <Link to="/">
+            <Btn>Go To Home</Btn>
+          </Link>
         </>
       )}
     </Container>

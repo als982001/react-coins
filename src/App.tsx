@@ -58,6 +58,7 @@ const GlobalStyle = createGlobalStyle`
   }
   * {
     box-sizing: border-box;
+    transition: background-color 0.5s linear;
   }
   body {
     font-weight: 300;
