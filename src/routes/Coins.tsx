@@ -25,6 +25,10 @@ const Title = styled.h1`
   font-size: 40px;
   font-weight: bold;
   color: ${(props) => props.theme.accentColor};
+
+  &:hover {
+    scale: 1.2;
+  }
 `;
 
 const CoinsList = styled.section`

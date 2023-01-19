@@ -26,6 +26,10 @@ const ThemeBtn = styled.div<{ currentTheme: string }>`
     font-size: 26px;
     color: ${(props) => (props.currentTheme === "dark" ? "white" : "white")};
   }
+
+  &:hover {
+    scale: 1.2;
+  }
 `;
 
 function Router() {
