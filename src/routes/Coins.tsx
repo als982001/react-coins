@@ -104,7 +104,7 @@ const offset = 6;
 const rowIdxes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
 
 function Coins() {
-  const setDarkAtom = useSetRecoilState(isDarkAtom);
+  // const setDarkAtom = useSetRecoilState(isDarkAtom);
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
   const topRatedData = data?.slice(0, 100);
 
