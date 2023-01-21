@@ -27,7 +27,7 @@ const Title = styled.h1`
   color: ${(props) => props.theme.accentColor};
 
   &:hover {
-    scale: 1.2;
+    scale: 1.3;
   }
 `;
 
