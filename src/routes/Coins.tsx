@@ -93,7 +93,7 @@ interface ICoin {
 
 const rowVariants = {
   init: (rowIdx: number) => ({
-    x: rowIdx % 2 == 0 ? -window.outerWidth - 5 : window.outerWidth + 5,
+    x: rowIdx % 2 === 0 ? -window.outerWidth - 5 : window.outerWidth + 5,
   }),
   show: {
     x: 0,
